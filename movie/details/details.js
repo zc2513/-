@@ -1,0 +1,19 @@
+(function(angular){
+	var app=angular.module("details",["ngRoute","serviceJSP"]);
+	app.config(["$routeProvider",function($routeProvider){
+		$routeProvider.when("/details/:id",{
+			templateUrl:"details/details.html",
+			controller:"detailsController"
+		})
+	}])
+	app.controller("detailsController",["$scope",
+		"myservice",
+		"$routeParams",
+		function($scope,myservice,$routeParams){
+		myservice.jsonp("http://api.douban.com/v2/movie/subject/"+$routeParams.id,{},function(result){
+			$scope.result=result;
+			console.log($scope.result);
+			$scope.$apply();
+		})
+	}])
+})(angular)
